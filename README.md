@@ -1,158 +1,135 @@
-Healthcare Patient Risk Analysis – Full ML/AI Pipeline 
+Healthcare Data Analysis & Machine Learning Pipeline
 
-The Healthcare Patient Risk Analysis project implements a complete machine learning and AI workflow starting from raw data exploration to predictive modeling and ending with an AI-powered clinical recommendation module. It simulates how hospitals, clinics, and insurance companies use data-driven systems for early detection, anomaly monitoring, and patient care enhancement.
+A complete, end-to-end healthcare data science project built using Python. The pipeline covers data exploration, predictive modeling, anomaly detection, and AI-driven doctor-style recommendation generation.
 
-1. Exploratory Data Analysis (EDA)
+🚀 Project Overview
 
-EDA is the foundation of any ML project. The purpose is to understand the dataset and identify patterns, correlations, and anomalies.
+This project analyzes a real-world healthcare dataset (Kaggle) and builds a multi-stage ML pipeline with automated outputs, visualizations, and an LLM-powered guidance system.
 
-a. Numerical Feature Analysis
+✔️ Task 1 — Exploratory Data Analysis (EDA)
 
-Three major numerical columns were examined:
+The project begins with a detailed exploratory analysis to understand trends, distributions, and patterns in patient data.
 
-Age – demographic indicator
+Key EDA Components
 
-Billing Amount – financial/medical cost indicator
+Distribution analysis using:
 
-Room Number – hospital infrastructure indicator
+Boxplots
 
-Statistical measures such as mean, median, standard deviation, min-max range, and quartiles were computed using df.describe().
+KDE plots
 
-b. Distribution Visualization
+Violin plots
 
-Histograms with KDE curves were plotted using Seaborn to understand:
+Log-transformed histograms
 
-Whether Age follows a normal distribution
+Frequency visualizations for:
 
-Whether Billing Amount shows skewness (often right-skewed in healthcare datasets)
+Medical Conditions
 
-How Room assignments are spread (random vs structured)
+Admission Types
 
-c. Categorical Feature Analysis
+Medications
 
-Frequency plots were generated for:
+Outlier detection using IQR and visual markers
 
-Medical Condition (e.g., Diabetes, Cancer, Obesity …)
+Missing value heatmaps and correlation matrices
 
-Admission Type (Emergency, Urgent, Elective)
+Automated EDA summary saved in the outputs/ directory
 
-Medication (Aspirin, Ibuprofen, Paracetamol …)
+This step provides a complete statistical understanding of patient demographics, billing patterns, and disease frequency.
 
-These countplots help determine the prevalence of diseases and common treatment profiles.
+✔️ Task 2 — Supervised Machine Learning
+🎯 Prediction Target:
 
-2. Supervised Learning – Predicting Test Results
+“Test Results” → Normal, Abnormal, or Inconclusive
 
-The objective is to predict Test Results, which has three classes:
+Techniques Used
 
-Normal
+Feature Engineering
 
-Abnormal
+Patient stay duration (Discharge – Admission)
 
-Inconclusive
+Medication count per patient
 
-a. Feature Preparation
+Billing Amount bucketization
 
-Non-essential columns (Name, Doctor, Hospital, Dates) were removed.
+Handling High Cardinality Fields
 
-Categorical features like Gender, Blood Type, Medical Condition, etc., were one-hot encoded using:
+Doctor and Hospital fields grouped using frequency encoding
 
-pd.get_dummies(..., drop_first=False)
+Primary ML Model
 
-b. Train–Test Split
+CatBoostClassifier
+(handles categorical features natively)
 
-Data was split into:
+Fallback Model
 
-80% Training (X_train, y_train)
+RandomForestClassifier + OneHotEncoder
 
-20% Testing (X_test, y_test)
+Model Outputs
 
-Stratification ensured balanced class distribution.
+Accuracy, Precision, Recall, F1-score
 
-c. Scaling
+Confusion matrix and performance report
 
-Numerical features (Age, Billing Amount, Room Number) were standardized using StandardScaler.
+Actual vs Predicted comparison plots
 
-d. Model Training
+Feature importance ranked file
 
-A Logistic Regression classifier was trained with:
+Exported CatBoost Model (.cbm format)
 
-model = LogisticRegression(max_iter=1000)
+Predictions saved as CSV
 
+This supervised step predicts the clinical test outcome for each patient based on their attributes.
 
-Even though accuracy was modest (~34%), this is common for:
+✔️ Task 3 — Unsupervised Learning (Anomaly Detection)
+🔍 Goal: Identify abnormal billing patterns that may indicate errors, fraud, or unusual medical cases.
+Techniques Used
 
-Multi-class problems
+Z-score analysis for statistical outlier detection
 
-High categorical cardinality
+IsolationForest for robust anomaly detection in billing data
 
-Few strong predictors
+Generated Outputs
 
-e. Evaluation Metrics
+Dataset with anomaly flags (0 = normal, 1 = anomaly)
 
-Accuracy Score
+Top anomalies saved as CSV
 
-Classification Report (precision, recall, F1)
+Text-based interpretation explaining:
 
-Confusion Matrix
+High billing spikes
 
-These help understand misclassifications and class imbalance.
+Unusual low billing cases
 
-3. Unsupervised Learning – Anomaly Detection
+Potential hospital/doctor behavior patterns
 
-An Isolation Forest was used to detect unusual billing patterns:
+This task ensures deeper financial insights and highlights unusual records.
 
-iso = IsolationForest(contamination=0.05)
+✔️ Task 4 — AI-Generated Doctor Recommendation (LLM-Style)
 
-a. What It Detects
+An integrated AI module uses model predictions and patient metadata to generate clinical-style suggestions.
 
-Extremely high billing → costly treatments
+Input Parameters
 
-Sudden spikes → long stays or rare procedures
+Age
 
-Very low billing → incomplete billing or clerical errors
+Medical Condition
 
-b. Visualization
+Current Medication
 
-Scatter plots marked:
+Model-predicted test result
 
-Blue = normal
+Severity indicators
 
-Red = anomalous regions
+AI Outputs
 
-This provides insights for fraud detection, insurance audits, and hospital budgeting.
+Short, doctor-style recommendation
 
-4. AI Task – LLM-Powered Clinical Recommendation
+Follow-up instructions and risk assessment
 
-The final component integrates the ML model output with a Large Language Model (LLM) to generate human-like medical recommendations.
+Helpful insights tailored to the patient's condition
 
-a. Components Used
+Saved final recommendation as a .txt file
 
-OpenRouter/OpenAI API
-
-A custom recommendation function
-
-Patient metadata + ML prediction
-
-b. What the LLM Does
-
-After the ML model predicts “Normal,” “Abnormal,” or “Inconclusive,” the LLM generates:
-
-Risk explanation
-
-Follow-up evaluation
-
-Medication advice
-
-Specialist referral suggestions
-
-Severity considerations
-
-This mimics real medical writing and decision support systems.
-
-c. Example Output
-
-The AI generates structured medical-style recommendations like:
-
-“Findings suggest an abnormal test result — recommend prompt specialist review. Arrange further diagnostics and seek urgent care if symptoms worsen.”
-
-This creates a realistic AI-assisted clinical decision support workflow.
+This enhances the ML pipeline with natural-language intelligence similar to modern healthcare AI assistants.
