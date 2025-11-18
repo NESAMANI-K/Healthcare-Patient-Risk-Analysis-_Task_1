@@ -156,11 +156,3 @@ The AI generates structured medical-style recommendations like:
 “Findings suggest an abnormal test result — recommend prompt specialist review. Arrange further diagnostics and seek urgent care if symptoms worsen.”
 
 This creates a realistic AI-assisted clinical decision support workflow.
-
-Why This Project Is Strong
-
-✔ Covers entire ML pipeline
-✔ Integrates EDA, classification, anomaly detection, and LLMs
-✔ Uses real-world techniques used in hospitals
-✔ Demonstrates both data science + AI engineering skills
-✔ Produces interpretable outputs and clinical-style insights
